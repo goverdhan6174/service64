@@ -47,6 +47,7 @@ class BannerOneSearchInput extends Component {
   handleChangeLoc = (ev) => {
     this.setState({ selected_location: ev.label });
   };
+  
   search() {
     const {
       selectedCatOp,
