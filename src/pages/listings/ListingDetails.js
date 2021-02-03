@@ -21,6 +21,8 @@ import { IoMdStar, IoMdStarHalf } from "react-icons/io";
 import pic from "../../components/sliders/image.png";
 import { FaCentercode } from "react-icons/fa";
 
+import MetaDecorator from "./../../utils/metaDecorator";
+import metaData from "./../../meta/listingDetails";
 
 // ProductModal.find({}).skip(Number(skip)).limit(Number(limit)).exec()
 
@@ -30,7 +32,7 @@ class ListingDetails extends Component {
     this.state = {
       isOpen: false,
       descTitle: "Category",
-      locations: ['locations'],
+      locations: ["locations"],
       desc:
         "Nemo ucxqui officia voluptatem accu santium doloremque laudantium, totam rem ape dicta sunt dose explicabo. Nemo enim ipsam voluptatem quia voluptas. Excepteur sint occaecat cupidatat non proident, sunt in culpa kequi officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusan tium dolorem que laudantium, totam rem aperiam the eaque ipsa quae abillo was inventore veritatis keret quasi aperiam architecto beatae vitae dicta sunt explicabo. Lorem ipsum dolor sit amet, consectetur adipisicing elit.",
       featureTitle: "Features",
@@ -54,7 +56,7 @@ class ListingDetails extends Component {
     this.setState({ isOpen: true });
   }
   componentDidMount() {
-    const details = JSON.parse(localStorage.getItem('"_ud_"'))
+    const details = JSON.parse(localStorage.getItem('"_ud_"'));
     if (details !== undefined) {
       this.setState({
         desc: details.description,
@@ -62,15 +64,22 @@ class ListingDetails extends Component {
         descTitle: details.category,
         city: details.city,
         seller_img: details.seller_img,
-        locations: details.locations
+        locations: details.locations,
       });
     }
   }
 
-
   render() {
     return (
       <main className="listing-details">
+        {/* SEO-Meta-Data */}
+        {metaData.show && (
+          <MetaDecorator
+            title={metaData.pageTitle}
+            description={metaData.pageDescription}
+          />
+        )}
+        
         {/* Header */}
         <GeneralHeader />
 
@@ -82,27 +91,21 @@ class ListingDetails extends Component {
             <div className="justify-content-center row col-lg-12">
               <div className="col-lg-11">
                 <div className="single-listing-wrap">
-
-
                   <div className="col-lg-12">
                     <div className="listing-description">
                       <div className="section-heading mt-4 row singleProfileCard">
                         <div className="col-lg-8 row padding-0">
-                          <div className="col-lg-5 sellerImage"
-
+                          <div
+                            className="col-lg-5 sellerImage"
                             style={{
                               backgroundImage: `url(${this.state.seller_img})`,
-                              backgroundPosition: 'center',
-                              height: '300px',
-                              backgroundRepeat: 'no-repeat',
-                              backgroundSize: 'cover',
-                              marginLeft: '35px'
+                              backgroundPosition: "center",
+                              height: "300px",
+                              backgroundRepeat: "no-repeat",
+                              backgroundSize: "cover",
+                              marginLeft: "35px",
                             }}
-
-                          >
-
-
-                          </div>
+                          ></div>
                           <div
                             className="col-lg-6"
                             style={{
@@ -110,14 +113,17 @@ class ListingDetails extends Component {
                               flexDirection: "column",
                               justifyContent: "center",
                               marginRight: "4px",
-                              paddingLeft: '40px',
-                              paddingTop: '20px'
+                              paddingLeft: "40px",
+                              paddingTop: "20px",
                             }}
                           >
                             <h2 className="single-profile-name">
                               {this.state.title}
                             </h2>
-                            <h3 className="single-profile-category user-select-none" style={{ userSelect: 'none' }} >
+                            <h3
+                              className="single-profile-category user-select-none"
+                              style={{ userSelect: "none" }}
+                            >
                               {this.state.descTitle}
                             </h3>
 
@@ -130,16 +136,19 @@ class ListingDetails extends Component {
                               {<b>Areas: </b>}
                               {this.state.locations.map((i, k) => {
                                 return (
-                                  <span key={k}> {i}
+                                  <span key={k}>
+                                    {" "}
+                                    {i}
                                     {this.state.locations.length != k + 1 ? (
                                       <span>,</span>
-                                    ) : ('')} </span>
-                                )
+                                    ) : (
+                                      ""
+                                    )}{" "}
+                                  </span>
+                                );
                               })}
                             </p>
                             {/* <ReviewFields /> */}
-
-
                           </div>
                         </div>
 
@@ -149,7 +158,7 @@ class ListingDetails extends Component {
                             display: "flex",
                             flexDirection: "column",
                             justifyContent: "center",
-                            padding: '50px 0px 35px 20px'
+                            padding: "50px 0px 35px 20px",
                           }}
                         >
                           <ContactInfo />
@@ -157,9 +166,6 @@ class ListingDetails extends Component {
                       </div>
                     </div>
                   </div>
-
-
-
                 </div>
               </div>
 
@@ -271,20 +277,12 @@ class ListingDetails extends Component {
                     </div>
                   </div>
                     </div>*/}
-
-
               </div>
-              {
-
-                /*
+              {/*
                 <div className="col-lg-11">
                   <ReviewFields details={this.props.item} />
                   <ListingDetailsComments />
-                </div>*/
-              }
-
-
-
+                </div>*/}
             </div>
           </div>
         </section>

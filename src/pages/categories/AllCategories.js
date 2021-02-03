@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from "react";
 import GeneralHeader from "../../components/common/GeneralHeader";
 import Breadcrumb from "../../components/common/Breadcrumb";
 import PopularCategories from "../../components/other/categories/PopularCategories";
@@ -7,39 +7,51 @@ import Footer from "../../components/common/footer/Footer";
 import ScrollTopBtn from "../../components/common/ScrollTopBtn";
 import PopularCategoriesMore from "../../components/other/categories/PopularCategoriesMore";
 
+import MetaDecorator from "./../../utils/metaDecorator";
+import metaData from "./../../meta/allCategories";
+
 class AllCategories extends Component {
-    state = {
-        breadcrumbImg: require('../../assets/images/s4.jpg'),
-    }
-    render() {
-        return (
-            <main className="all-categories">
-                {/* Header */}
-                <GeneralHeader />
+  state = {
+    breadcrumbImg: require("../../assets/images/s4.jpg"),
+  };
+  render() {
+    return (
+      <main className="all-categories">
+        {/* SEO-Meta-Data */}
+        { metaData.show && <MetaDecorator
+          title={metaData.pageTitle}
+          description={metaData.pageDescription}
+        />}
 
-                {/* Breadcrumb */}
-                <Breadcrumb CurrentPgTitle="All Categories" MenuPgTitle="Categories" img={this.state.breadcrumbImg} />
+        {/* Header */}
+        <GeneralHeader />
 
-                <section className="cat-area padding-top-40px padding-bottom-80px">
-                    <div className="container">
-                        <div className="row">
-                            <PopularCategories />
-                            <PopularCategoriesMore />
-                        </div>
-                    </div>
-                </section>
+        {/* Breadcrumb */}
+        <Breadcrumb
+          CurrentPgTitle="All Categories"
+          MenuPgTitle="Categories"
+          img={this.state.breadcrumbImg}
+        />
 
-                {/* NewsLetter */}
-                <NewsLetter />
+        <section className="cat-area padding-top-40px padding-bottom-80px">
+          <div className="container">
+            <div className="row">
+              <PopularCategories />
+              <PopularCategoriesMore />
+            </div>
+          </div>
+        </section>
 
-                {/* Footer */}
-                <Footer />
+        {/* NewsLetter */}
+        <NewsLetter />
 
-                <ScrollTopBtn />
+        {/* Footer */}
+        <Footer />
 
-            </main>
-        );
-    }
+        <ScrollTopBtn />
+      </main>
+    );
+  }
 }
 
 export default AllCategories;

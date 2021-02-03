@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from "react";
 import GeneralHeader from "../../components/common/GeneralHeader";
 import Banner5 from "../../components/banner/banner6/Banner6";
 
@@ -19,29 +19,32 @@ import Footer from "../../components/common/footer/Footer";
 import ScrollTopBtn from "../../components/common/ScrollTopBtn";
 
 class HowIrWorks extends Component {
-    state = {
-        breadcrumbImg: require('../../assets/images/joel-vodell-8Ogfqvw15Rg-unsplash.jpg'),
-    }
-    render() {
-        return (
-            <main className="about-page">
-                {/* Header */}
-                <GeneralHeader />
+  state = {
+    breadcrumbImg: require("../../assets/images/joel-vodell-8Ogfqvw15Rg-unsplash.jpg"),
+  };
+  render() {
+    return (
+      <main className="about-page">
+        {/* Header */}
+        <GeneralHeader />
 
-                {/* Banner */}
-                <Breadcrumb CurrentPgTitle="All Categories" MenuPgTitle="Categories" img={this.state.breadcrumbImg} />
+        {/* Banner */}
+        <Breadcrumb
+          CurrentPgTitle="All Categories"
+          MenuPgTitle="Categories"
+          img={this.state.breadcrumbImg}
+        />
 
-                {/* NewsLetter */}
-                <NewsLetter />
+        {/* NewsLetter */}
+        <NewsLetter />
 
-                {/* Footer */}
-                <Footer />
+        {/* Footer */}
+        <Footer />
 
-                <ScrollTopBtn />
-
-            </main>
-        );
-    }
+        <ScrollTopBtn />
+      </main>
+    );
+  }
 }
 
 export default HowIrWorks;

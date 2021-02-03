@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from "react";
 import GeneralHeader from "../components/common/GeneralHeader";
 import Breadcrumb from "../components/common/Breadcrumb";
 import Authors from "../components/sliders/Authors";
@@ -6,37 +6,49 @@ import NewsLetter from "../components/other/cta/NewsLetter";
 import Footer from "../components/common/footer/Footer";
 import ScrollTopBtn from "../components/common/ScrollTopBtn";
 
+import MetaDecorator from "../utils/metaDecorator";
+import metaData from "../meta/topAuthors";
 class TopAuthors extends Component {
-    state = {
-        breadcrumbimg: require('../assets/images/bread-bg.jpg')
-    }
-    render() {
-        return (
-            <main className="top-authors">
-                {/* Header */}
-                <GeneralHeader />
+  state = {
+    breadcrumbimg: require("../assets/images/bread-bg.jpg"),
+  };
+  render() {
+    return (
+      <main className="top-authors">
+        {/* SEO-Meta-Data */}
+        {metaData.show && (
+          <MetaDecorator
+            title={metaData.pageTitle}
+            description={metaData.pageDescription}
+          />
+        )}
+        {/* Header */}
+        <GeneralHeader />
 
-                {/* Breadcrumb */}
-                <Breadcrumb CurrentPgTitle="Top Authors" MenuPgTitle="pages" img={this.state.breadcrumbimg} />
+        {/* Breadcrumb */}
+        <Breadcrumb
+          CurrentPgTitle="Top Authors"
+          MenuPgTitle="pages"
+          img={this.state.breadcrumbimg}
+        />
 
-                {/* Authors */}
-                <section className="author-area  padding-bottom-100px bg-img-transparent before-none">
-                    <div className="container-fluid">
-                        <Authors />
-                    </div>
-                </section>
+        {/* Authors */}
+        <section className="author-area  padding-bottom-100px bg-img-transparent before-none">
+          <div className="container-fluid">
+            <Authors />
+          </div>
+        </section>
 
-                {/* Newsletter */}
-                <NewsLetter />
+        {/* Newsletter */}
+        <NewsLetter />
 
-                {/* Footer */}
-                <Footer />
+        {/* Footer */}
+        <Footer />
 
-                <ScrollTopBtn />
-
-            </main>
-        );
-    }
+        <ScrollTopBtn />
+      </main>
+    );
+  }
 }
 
 export default TopAuthors;

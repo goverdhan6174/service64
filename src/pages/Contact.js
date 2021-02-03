@@ -1,43 +1,53 @@
-import React, {Component} from 'react';
+import React, { Component } from "react";
 import GeneralHeader from "../components/common/GeneralHeader";
 import Breadcrumb from "../components/common/Breadcrumb";
 import AskQuestionField from "../components/contact/AskQuestionField";
 import ContactSidebar from "../components/sidebars/ContactSidebar";
 import GeneralMap from "../components/contact/GeneralMap";
-import { FiPhone } from 'react-icons/fi'
-import { FaRegEnvelope } from 'react-icons/fa'
-import { GoLocation } from 'react-icons/go'
+import { FiPhone } from "react-icons/fi";
+import { FaRegEnvelope } from "react-icons/fa";
+import { GoLocation } from "react-icons/go";
 import Footer from "../components/common/footer/Footer";
 import ScrollTopBtn from "../components/common/ScrollTopBtn";
 
-
-
+import MetaDecorator from "../utils/metaDecorator";
+import metaData from "../meta/contact";
 class Contact extends Component {
-    state = {
-        breadcrumbimg: require('../assets/images/s4.jpg'),
-    }
-    render() {
-        return (
-            
-            <main className="contact-page">
-                <GeneralHeader />
-                <Breadcrumb CurrentPgTitle="Contact Us" MenuPgTitle="pages" img={this.state.breadcrumbimg} />
-                <section className="contact-area padding-top-40px padding-bottom-80px">
-                    <div className="container">
-                        <div className="row">
-                            <div className="col-lg-7">
-                                <AskQuestionField title="Get in touch" />
-                            </div>
+  state = {
+    breadcrumbimg: require("../assets/images/s4.jpg"),
+  };
+  render() {
+    return (
+      <main className="contact-page">
+        {/* SEO-Meta-Data */}
+        {metaData.show && (
+          <MetaDecorator
+            title={metaData.pageTitle}
+            description={metaData.pageDescription}
+          />
+        )}
+        <GeneralHeader />
+        <Breadcrumb
+          CurrentPgTitle="Contact Us"
+          MenuPgTitle="pages"
+          img={this.state.breadcrumbimg}
+        />
+        <section className="contact-area padding-top-40px padding-bottom-80px">
+          <div className="container">
+            <div className="row">
+              <div className="col-lg-7">
+                <AskQuestionField title="Get in touch" />
+              </div>
 
-                            <div className="col-lg-5">
-                                <ContactSidebar />
-                            </div>
-                        </div>
-                    </div>
-                </section>
-                {/* service64bd@gmail.com */}
+              <div className="col-lg-5">
+                <ContactSidebar />
+              </div>
+            </div>
+          </div>
+        </section>
+        {/* service64bd@gmail.com */}
 
-                {/* <div className="gmaps">
+        {/* <div className="gmaps">
                     <GeneralMap />
                     <div className="map-address-box">
                         <ul className="map-address">
@@ -64,14 +74,13 @@ class Contact extends Component {
                     </div>
                 </div> */}
 
-                {/* Footer */}
-                <Footer />
+        {/* Footer */}
+        <Footer />
 
-                <ScrollTopBtn />
-
-            </main>
-        );
-    }
+        <ScrollTopBtn />
+      </main>
+    );
+  }
 }
 
 export default Contact;

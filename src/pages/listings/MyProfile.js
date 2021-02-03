@@ -19,6 +19,9 @@ import ScrollTopBtn from "../../components/common/ScrollTopBtn";
 // import { connect } from "react-redux";
 import { IoMdStar, IoMdStarHalf } from "react-icons/io";
 import pic from "../../components/sliders/image.png";
+import MetaDecorator from "./../../utils/metaDecorator";
+import metaData from "./../../meta/myProfile";
+
 class MyProfile extends Component {
   constructor() {
     super();
@@ -35,8 +38,8 @@ class MyProfile extends Component {
       mapTitle: "Location",
       peopleViewtitle: "People Also Viewed",
       // seller_img: pic,
-      number: '+8803062028',
-      hid: 'XXXXXXX',
+      number: "+8803062028",
+      hid: "XXXXXXX",
       numberStyle: {
         color: "black",
         fontFamily: "Arial",
@@ -79,72 +82,69 @@ class MyProfile extends Component {
   }
 
   numberShow() {
-    const { number } = this.state
-    let num = number
-    const details = this.props.item
+    const { number } = this.state;
+    let num = number;
+    const details = this.props.item;
     if (details !== undefined) {
-      num = details.user_number
+      num = details.user_number;
       let changeStyle = {
-        transition: '2s',
-        color: 'black',
-      }
+        transition: "2s",
+        color: "black",
+      };
       this.setState({
         styles: changeStyle,
-        hid: details.user_number.slice(4)
-      })
-    }
-    else {
+        hid: details.user_number.slice(4),
+      });
+    } else {
       let changeStyle = {
-        transition: '2s',
-        color: 'black',
-      }
+        transition: "2s",
+        color: "black",
+      };
       this.setState({
         styles: changeStyle,
-        hid: num.slice(4)
-      })
+        hid: num.slice(4),
+      });
     }
-
   }
 
-
   render() {
-    const { styles } = this.state
+    const { styles } = this.state;
     const { user_type, title, user_number, useremail } = this.state;
     return (
       <main className="listing-details">
+        {/* SEO-Meta-Data */}
+        {metaData.show && (
+          <MetaDecorator
+            title={metaData.pageTitle}
+            description={metaData.pageDescription}
+          />
+        )}
+
         {/* Header */}
         <GeneralHeader />
         {/* Breadcrumb */}
         <ListingDetailsBreadcrumb />
         <section className="single-listing-area margin-bottom-40px">
           <div className="container">
-
-            {user_type === 'Seller' ? (
+            {user_type === "Seller" ? (
               <div className="justify-content-center row col-lg-12">
                 <div className="col-lg-11">
                   <div className="single-listing-wrap">
-
-
                     <div className="col-lg-12">
                       <div className="listing-description">
                         <div className="section-heading mt-4 row singleProfileCard">
                           <div className="col-lg-8 row padding-0">
-
-                            <div className="col-lg-5 sellerImage"
-
+                            <div
+                              className="col-lg-5 sellerImage"
                               style={{
                                 backgroundImage: `url(${this.state.seller_img})`,
-                                backgroundPosition: 'center',
-                                height: '220px',
-                                backgroundRepeat: 'no-repeat',
-                                backgroundSize: 'cover',
-                                marginLeft: '35px'
+                                backgroundPosition: "center",
+                                height: "220px",
+                                backgroundRepeat: "no-repeat",
+                                backgroundSize: "cover",
+                                marginLeft: "35px",
                               }}
-
-                            >
-
-
-                            </div>
+                            ></div>
                             <div
                               className="col-lg-6"
                               style={{
@@ -152,14 +152,17 @@ class MyProfile extends Component {
                                 flexDirection: "column",
                                 justifyContent: "center",
                                 marginRight: "4px",
-                                paddingLeft: '40px',
-                                paddingTop: '20px'
+                                paddingLeft: "40px",
+                                paddingTop: "20px",
                               }}
                             >
                               <h2 className="single-profile-name">
                                 {this.state.title}
                               </h2>
-                              <h3 className="single-profile-category user-select-none" style={{ userSelect: 'none' }} >
+                              <h3
+                                className="single-profile-category user-select-none"
+                                style={{ userSelect: "none" }}
+                              >
                                 {this.state.descTitle}
                               </h3>
 
@@ -172,16 +175,19 @@ class MyProfile extends Component {
                                 {<b>Areas: </b>}
                                 {this.state.locations.map((i, k) => {
                                   return (
-                                    <span key={k}> {i}
+                                    <span key={k}>
+                                      {" "}
+                                      {i}
                                       {this.state.locations.length != k + 1 ? (
                                         <span>,</span>
-                                      ) : ('')} </span>
-                                  )
+                                      ) : (
+                                        ""
+                                      )}{" "}
+                                    </span>
+                                  );
                                 })}
                               </p>
                               {/* <ReviewFields /> */}
-
-
                             </div>
                           </div>
 
@@ -191,14 +197,10 @@ class MyProfile extends Component {
                               display: "flex",
                               flexDirection: "column",
                               justifyContent: "center",
-                              padding: '50px 0px 35px 20px'
+                              padding: "50px 0px 35px 20px",
                             }}
                           >
-
-
-
-
-                            <div className=''>
+                            <div className="">
                               <div className="contact-listing">
                                 {/* <h2 className="widget-title">
                             {this.state.title}
@@ -211,24 +213,27 @@ class MyProfile extends Component {
                                 ) : ''} */}
 
                                     {this.state.number ? (
-
-                                      <li onClick={this.numberShow.bind(this)} style={{ cursor: 'pointer' }} className='animate__backInLeft animate__delay-2s' >
-                                        Click:  {this.state.number.slice(0, 4)}<span style={styles} >{this.state.hid}</span>
+                                      <li
+                                        onClick={this.numberShow.bind(this)}
+                                        style={{ cursor: "pointer" }}
+                                        className="animate__backInLeft animate__delay-2s"
+                                      >
+                                        Click: {this.state.number.slice(0, 4)}
+                                        <span style={styles}>
+                                          {this.state.hid}
+                                        </span>
                                       </li>
-                                    ) : ''}
-
+                                    ) : (
+                                      ""
+                                    )}
                                   </ul>
                                 </div>
-
                               </div>
-
-                            </div>                        </div>
+                            </div>{" "}
+                          </div>
                         </div>
                       </div>
                     </div>
-
-
-
                   </div>
                 </div>
 
@@ -270,8 +275,6 @@ class MyProfile extends Component {
                     </div>
 
                             */}
-
-
                   </div>
                 </div>
 
@@ -351,36 +354,31 @@ class MyProfile extends Component {
                 </div>
               </div>
             ) : (
-
-
-
-
-                <div style={{
+              <div
+                style={{
                   display: "flex",
                   justifyContent: "center",
-                }} >
-                  <div className="col-lg-4">
-                    <div className='mt-4 '>
-                      <h3 className='font-size-24'> Name : {title} </h3>
-                    </div>
+                }}
+              >
+                <div className="col-lg-4">
+                  <div className="mt-4 ">
+                    <h3 className="font-size-24"> Name : {title} </h3>
+                  </div>
 
-                    <div className='mt-4'>
-                      <h3 className='font-size-24'> Phone : {user_number} </h3>
-                    </div>
+                  <div className="mt-4">
+                    <h3 className="font-size-24"> Phone : {user_number} </h3>
+                  </div>
 
-                    <div className='mt-4'>
-                      <h3 className='font-size-24'> Email : {useremail} </h3>
-                    </div>
+                  <div className="mt-4">
+                    <h3 className="font-size-24"> Email : {useremail} </h3>
+                  </div>
 
-                    <div className='mt-4'>
-                      <h3 className='font-size-24'> Name : {title} </h3>
-                    </div>
+                  <div className="mt-4">
+                    <h3 className="font-size-24"> Name : {title} </h3>
                   </div>
                 </div>
-
-
-
-              )}
+              </div>
+            )}
           </div>
         </section>
 

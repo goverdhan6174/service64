@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import SignUpBox from "../components/other/account/SignUpBox";
 import GeneralHeader from "../components/common/GeneralHeader";
 import Breadcrumb from "../components/common/Breadcrumb";
@@ -7,23 +7,33 @@ import Footer from "../components/common/footer/Footer";
 import ScrollTopBtn from "../components/common/ScrollTopBtn";
 import { Link } from "react-router-dom";
 
-import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
-import Seller_reg_form from './listings/AddListing.js'
+import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
+import Seller_reg_form from "./listings/AddListing.js";
 
+import MetaDecorator from "../utils/metaDecorator";
+import metaData from "../meta/signUp";
 class SignUp extends Component {
-    state = {
-        breadcrumbimg: require('../assets/images/s4.jpg'),
-    }
-    render() {
-        return (
-            <main className="signup-page">
-                {/* Header */}
-                <GeneralHeader />
+  state = {
+    breadcrumbimg: require("../assets/images/s4.jpg"),
+  };
+  render() {
+    return (
+      <main className="signup-page">
+        {/* SEO-Meta-Data */}
+        {metaData.show && (
+          <MetaDecorator
+            title={metaData.pageTitle}
+            description={metaData.pageDescription}
+          />
+        )}
 
-                {/* Breadcrumb */}
-                <Breadcrumb CurrentPgTitle="Sign Up" img={this.state.breadcrumbimg} />
+        {/* Header */}
+        <GeneralHeader />
 
-                {/*
+        {/* Breadcrumb */}
+        <Breadcrumb CurrentPgTitle="Sign Up" img={this.state.breadcrumbimg} />
+
+        {/*
 
                 <section className="form-shared padding-top-40px padding-bottom-100px">
                     <div className="container">
@@ -64,31 +74,32 @@ class SignUp extends Component {
 
                 */}
 
-                <section className="form-shared padding-top-40px">
-                    <div className="container">
-                        <div className="row">
-                            <div className="col-lg-7 mx-auto signupHeading">
-                                <h2>Signup to get jobs</h2>
-                                <p>Join  and get connected with the people who are looking for your services in your area. </p>
-                            </div>
-                        </div>
-                    </div>
-                </section>
+        <section className="form-shared padding-top-40px">
+          <div className="container">
+            <div className="row">
+              <div className="col-lg-7 mx-auto signupHeading">
+                <h2>Signup to get jobs</h2>
+                <p>
+                  Join and get connected with the people who are looking for
+                  your services in your area.{" "}
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
 
-                <Seller_reg_form history={this.props.history} />
+        <Seller_reg_form history={this.props.history} />
 
-
-                {/* Newsletter 
+        {/* Newsletter 
                 <NewsLetter />
 
                 {/* Footer */}
-                <Footer />
+        <Footer />
 
-                <ScrollTopBtn />
-
-            </main>
-        );
-    }
+        <ScrollTopBtn />
+      </main>
+    );
+  }
 }
 
 export default SignUp;

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import GeneralHeader from "../../components/common/GeneralHeader";
 import Breadcrumb from "../../components/common/Breadcrumb";
 import PlaceGrid from "../../components/places/PlaceGrid";
@@ -9,44 +9,55 @@ import Footer from "../../components/common/footer/Footer";
 import ScrollTopBtn from "../../components/common/ScrollTopBtn";
 import GenericHeader from "../../components/common/GenericHeader";
 
+import MetaDecorator from "./../../utils/metaDecorator";
+import metaData from "./../../meta/listingGrid";
 
-import { connect } from 'react-redux';
+import { connect } from "react-redux";
 // import { bindActionCreators } from 'redux';
 // import { search_res } from '../../store/action';
 
-
-
 class ListingGrid extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      bdimg: require("../../assets/images/s4.jpg"),
+    };
+  }
+  render() {
+    return (
+      <main className="listing-grid">
+        {/* SEO-Meta-Data */}
+        {metaData.show && (
+          <MetaDecorator
+            title={metaData.pageTitle}
+            description={metaData.pageDescription}
+          />
+        )}
 
-    constructor(props) {
-        super(props)
-        this.state = {
-            bdimg: require('../../assets/images/s4.jpg'),
-        }
-    }
-    render() {
-        return (
-            <main className="listing-grid">
-                {/* Header */}
-                <GeneralHeader history={this.props.history} />
+        {/* Header */}
+        <GeneralHeader history={this.props.history} />
 
-                {/* Breadcrumb */}
-                <Breadcrumb CurrentPgTitle="Listing" MenuPgTitle="Listings" img={this.state.bdimg} />
+        {/* Breadcrumb */}
+        <Breadcrumb
+          CurrentPgTitle="Listing"
+          MenuPgTitle="Listings"
+          img={this.state.bdimg}
+        />
 
-                {/* Place Grid */}
-                <section className="card-area padding-top-40px padding-bottom-100px">
-                    <div className="container">
-                        {/* <div className="row">
+        {/* Place Grid */}
+        <section className="card-area padding-top-40px padding-bottom-100px">
+          <div className="container">
+            {/* <div className="row">
                             <div className="col-lg-12">
                                 <GenericHeader />
                             </div>
                         </div> */}
 
-                        <div className="row">
-                            <PlaceGrid history={this.props.history} />
-                        </div>
+            <div className="row">
+              <PlaceGrid history={this.props.history} />
+            </div>
 
-                        {/* <div className="row"> 
+            {/* <div className="row"> 
                             <div className="col-lg-12">
                                 <div className="button-shared mt-4 text-center">
                                     <Button text="Load More" url="#">
@@ -57,25 +68,25 @@ class ListingGrid extends Component {
                                 </div>
                             </div>
                         </div> */}
-                    </div>
-                </section>
+          </div>
+        </section>
 
-                {/* Newsletter */}
-                <NewsLetter />
+        {/* Newsletter */}
+        <NewsLetter />
 
-                {/* Footer */}
-                <Footer />
+        {/* Footer */}
+        <Footer />
 
-                <ScrollTopBtn />
-            </main>
-        );
-    }
+        <ScrollTopBtn />
+      </main>
+    );
+  }
 }
 
 const mapStateToProps = (state) => {
-    return {
-        item: state
-    }
-}
+  return {
+    item: state,
+  };
+};
 
-export default connect(mapStateToProps, null)(ListingGrid)
+export default connect(mapStateToProps, null)(ListingGrid);

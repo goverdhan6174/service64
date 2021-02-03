@@ -7,6 +7,7 @@ import NewsLetter from "../../components/other/cta/NewsLetter";
 import Footer from "../../components/common/footer/Footer";
 import ScrollTopBtn from "../../components/common/ScrollTopBtn";
 
+
 class BlogDetail extends Component {
     state = {
         breadcrumbimg: require('../../assets/images/bread-bg.jpg'),

@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from "react";
 import GeneralHeader from "../../components/common/GeneralHeader";
 import Breadcrumb from "../../components/common/Breadcrumb";
 import BlogGridItems from "../../components/blogs/BlogGridItems";
@@ -7,42 +7,56 @@ import NewsLetter from "../../components/other/cta/NewsLetter";
 import Footer from "../../components/common/footer/Footer";
 import ScrollTopBtn from "../../components/common/ScrollTopBtn";
 
+import MetaDecorator from "../../utils/metaDecorator";
+import metaData from "../../meta/blogGrid";
+
 class BlogGrid extends Component {
-    state = {
-        breadcrumbimg: require('../../assets/images/bread-bg.jpg'),
-    }
-    render() {
-        return (
-            <main className="blog-grid-page">
-                {/* Header */}
-                <GeneralHeader />
+  state = {
+    breadcrumbimg: require("../../assets/images/bread-bg.jpg"),
+  };
+  render() {
+    return (
+      <main className="blog-grid-page">
+        {/* SEO-Meta-Data */}
+        {metaData.show && (
+          <MetaDecorator
+            title={metaData.pageTitle}
+            description={metaData.pageDescription}
+          />
+        )}
 
-                {/* Breadcrumb */}
-                <Breadcrumb CurrentPgTitle="Blog Grid" MenuPgTitle="Blog" img={this.state.breadcrumbimg} />
+        {/* Header */}
+        <GeneralHeader />
 
-                <section className="blog-grid padding-top-40px padding-bottom-100px">
-                    <div className="container">
-                        <BlogGridItems />
+        {/* Breadcrumb */}
+        <Breadcrumb
+          CurrentPgTitle="Blog Grid"
+          MenuPgTitle="Blog"
+          img={this.state.breadcrumbimg}
+        />
 
-                        <div className="row">
-                            <div className="col-lg-12">
-                                <Pagination />
-                            </div>
-                        </div>
-                    </div>
-                </section>
+        <section className="blog-grid padding-top-40px padding-bottom-100px">
+          <div className="container">
+            <BlogGridItems />
 
-                {/* Newsletter */}
-                <NewsLetter />
+            <div className="row">
+              <div className="col-lg-12">
+                <Pagination />
+              </div>
+            </div>
+          </div>
+        </section>
 
-                {/* Footer */}
-                <Footer />
+        {/* Newsletter */}
+        <NewsLetter />
 
-                <ScrollTopBtn />
+        {/* Footer */}
+        <Footer />
 
-            </main>
-        );
-    }
+        <ScrollTopBtn />
+      </main>
+    );
+  }
 }
 
 export default BlogGrid;
