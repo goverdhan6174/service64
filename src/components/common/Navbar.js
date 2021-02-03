@@ -39,7 +39,6 @@ function Navbar(props) {
       $("." + activeClassName).each(function () {
         $("." + activeClassName).removeClass("blaack");
         $("." + activeClassName).addClass(currentClass);
-        console.log(this);
       });
     } else {
       $("." + activeClassName).removeClass("bluue");
@@ -47,7 +46,6 @@ function Navbar(props) {
       $("." + activeClassName).each(function () {
         $("." + activeClassName).removeClass("bluue");
         $("." + activeClassName).addClass(currentClass);
-        console.log(this);
       });
     }
 

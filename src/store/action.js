@@ -25,7 +25,6 @@ export const CROPED_IMAGE = (data) => ({
   payload: data,
 });
 
-
 export const val = (data) => ({
   type: "val",
   payload: data,
