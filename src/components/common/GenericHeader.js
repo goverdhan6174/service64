@@ -74,7 +74,7 @@ class GenericHeader extends Component {
     const dt = {
       loading_control: true,
       listing_type: "city_listing",
-      city: ev.label
+      city: ev.label,
     };
     this.props.actions.moveto(dt);
     this.setState({ selected_city: ev });
@@ -94,7 +94,6 @@ class GenericHeader extends Component {
   };
 
   handleChangeCit = (ev) => {
-    this.sortByCity(ev);
     this.setState({ selected_city: ev.label });
     if (ev.locations !== null) {
       let array = ev.locations;
@@ -109,20 +108,50 @@ class GenericHeader extends Component {
           locations: new_arr,
           selected_location: null,
         });
+      } else {
+        this.setState({
+          locations: [{ label: ev.label }],
+          selected_location: ev.label,
+        });
       }
     } else {
-      this.setState({ locations: [] });
+      this.setState({
+        locations: [],
+        selected_location: null,
+      });
     }
   };
 
+  // handleChangeCit = (ev) => {
+  //   this.sortByCity(ev);
+  //   this.setState({ selected_city: ev.label });
+  //   if (ev.locations !== null) {
+  //     let array = ev.locations;
+  //     let new_arr = [];
+  //     if (array.length > 0) {
+  //       for (let i = 0; i < array.length; i++) {
+  //         const element = array[i];
+  //         element.value = i;
+  //         new_arr.push(element);
+  //       }
+  //       this.setState({
+  //         locations: new_arr,
+  //         selected_location: null,
+  //       });
+  //     }
+  //   } else {
+  //     this.setState({ locations: [] });
+  //   }
+  // };
+
   //   handleChangeLoc = (ev) => {
+
   handleChangeLoc = (ev) => {
     const dt = {
       loading_control: true,
       listing_type: "area_listing",
       location: ev.label,
       city: this.state.selected_city,
-
     };
     this.props.actions.moveto(dt);
     this.setState({ loading: true, location: ev.label });
@@ -154,14 +183,24 @@ class GenericHeader extends Component {
           new_arr.push(element);
         }
         this.setState({
-          categories: new_arr,
+          categories: new_arr.sort((a, b) => {
+            if (a.label < b.label) {
+              return -1;
+            }
+            if (a.label > b.label) {
+              return 1;
+            }
+            return 0;
+          }),
         });
+        console.log("CAT __ ", new_arr);
       }
     });
   }
 
   get_loc() {
     this.props.actions.get_loc().then((res) => {
+      console.log("get_loc called", res);
       let array = res.data;
       let new_arr = [];
       let loc_arr = [];
@@ -169,6 +208,17 @@ class GenericHeader extends Component {
       if (array.length > 0) {
         for (let i = 0; i < array.length; i++) {
           const element = array[i];
+
+          element.locations = array[i].locations.sort((a, b) => {
+            if (a.label < b.label) {
+              return -1;
+            }
+            if (a.label > b.label) {
+              return 1;
+            }
+            return 0;
+          });
+
           const loc_ele = array[i].locations;
           element.value = i;
           new_arr.push(element);
@@ -186,7 +236,15 @@ class GenericHeader extends Component {
         // }
         this.setState({
           // locations: concat,
-          cities: new_arr,
+          cities: new_arr.sort((a, b) => {
+            if (a.label < b.label) {
+              return -1;
+            }
+            if (a.label > b.label) {
+              return 1;
+            }
+            return 0;
+          }),
         });
       }
     });

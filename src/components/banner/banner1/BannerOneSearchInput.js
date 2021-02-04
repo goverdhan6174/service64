@@ -38,14 +38,12 @@ class BannerOneSearchInput extends Component {
   }
 
   handleChangeCat = (ev) => {
-    console.log("Change Category :: ", ev);
     this.setState({
       selectedCatOp: ev.label,
     });
   };
 
   handleChangeLoc = (ev) => {
-    console.log("CHANGE LOCATION ", ev.label);
     this.setState({ selected_location: ev.label });
   };
 
@@ -75,11 +73,6 @@ class BannerOneSearchInput extends Component {
       this.props.actions
         .search(search_body)
         .then((res) => {
-          console.log(
-            `search by ${JSON.stringify(
-              search_body
-            )} and response on frontend is ${JSON.stringify(res.data.message)}`
-          );
           if (res.data) {
             this.props.actions.search_res(res.data);
           } else {
@@ -121,7 +114,6 @@ class BannerOneSearchInput extends Component {
             return 0;
           }),
         });
-        console.log("CIT __ ", new_arr);
       }
     });
   }
@@ -147,13 +139,11 @@ class BannerOneSearchInput extends Component {
             return 0;
           }),
         });
-        console.log("CAT __ ", new_arr);
       }
     });
   }
 
   handleChangeCit = (ev) => {
-    console.log("CHANGE CITY ", ev.label);
     this.setState({ selected_city: ev.label });
     if (ev.locations !== null) {
       let array = ev.locations;
