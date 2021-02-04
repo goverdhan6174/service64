@@ -38,22 +38,19 @@ class BannerOneSearchInput extends Component {
   }
 
   handleChangeCat = (ev) => {
-    console.log(ev);
+    console.log("Change Category :: ", ev);
     this.setState({
       selectedCatOp: ev.label,
     });
   };
 
   handleChangeLoc = (ev) => {
+    console.log("CHANGE LOCATION ", ev.label);
     this.setState({ selected_location: ev.label });
   };
-  
+
   search() {
-    const {
-      selectedCatOp,
-      selected_city,
-      selected_location,
-    } = this.state;
+    const { selectedCatOp, selected_city, selected_location } = this.state;
 
     const search_body = {
       city: selected_city,
@@ -74,13 +71,18 @@ class BannerOneSearchInput extends Component {
         err_message: "Please Select Category !",
       });
     } else {
-      this.props.actions.moveto(search_body)
-      this.props.actions.search(search_body)
+      this.props.actions.moveto(search_body);
+      this.props.actions
+        .search(search_body)
         .then((res) => {
+          console.log(
+            `search by ${JSON.stringify(
+              search_body
+            )} and response on frontend is ${JSON.stringify(res.data.message)}`
+          );
           if (res.data) {
             this.props.actions.search_res(res.data);
-          }
-          else {
+          } else {
             this.props.actions.search_res(res);
           }
           this.props.history.push("/list");
@@ -97,11 +99,29 @@ class BannerOneSearchInput extends Component {
         for (let i = 0; i < array.length; i++) {
           const element = array[i];
           element.value = i;
+          element.locations = array[i].locations.sort((a, b) => {
+            if (a.label < b.label) {
+              return -1;
+            }
+            if (a.label > b.label) {
+              return 1;
+            }
+            return 0;
+          });
           new_arr.push(element);
         }
         this.setState({
-          cities: new_arr,
+          cities: new_arr.sort((a, b) => {
+            if (a.label < b.label) {
+              return -1;
+            }
+            if (a.label > b.label) {
+              return 1;
+            }
+            return 0;
+          }),
         });
+        console.log("CIT __ ", new_arr);
       }
     });
   }
@@ -117,13 +137,23 @@ class BannerOneSearchInput extends Component {
           new_arr.push(element);
         }
         this.setState({
-          categories: new_arr,
+          categories: new_arr.sort((a, b) => {
+            if (a.label < b.label) {
+              return -1;
+            }
+            if (a.label > b.label) {
+              return 1;
+            }
+            return 0;
+          }),
         });
+        console.log("CAT __ ", new_arr);
       }
     });
   }
 
   handleChangeCit = (ev) => {
+    console.log("CHANGE CITY ", ev.label);
     this.setState({ selected_city: ev.label });
     if (ev.locations !== null) {
       let array = ev.locations;
@@ -138,15 +168,25 @@ class BannerOneSearchInput extends Component {
           locations: new_arr,
           selected_location: null,
         });
+      } else {
+        this.setState({
+          locations: [{ label: ev.label }],
+          selected_location: ev.label,
+        });
       }
     } else {
-      this.setState({ locations: [] });
+      this.setState({
+        locations: [],
+        selected_location: null,
+      });
     }
   };
+
   componentDidMount() {
     this.get_cit();
     this.get_cat();
   }
+
   render() {
     const { cities, locations, categories, err_message } = this.state;
     return (

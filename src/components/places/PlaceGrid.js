@@ -212,9 +212,9 @@ class PlaceGrid extends Component {
       location: null,
       category: null,
 
-      city_placeholder: 'Sort By City...',
-      location_placeholder: 'Sort By Location...',
-      category_placeholder: 'Sort By Category...',
+      city_placeholder: "Sort By City...",
+      location_placeholder: "Sort By Location...",
+      category_placeholder: "Sort By Category...",
       recommended: null,
       closed_data: false,
       closed_data_msg: "That's all we have",
@@ -235,47 +235,49 @@ class PlaceGrid extends Component {
       location: location,
     };
     if (this.state.selected_city !== null && this.state.location) {
-      this.props.actions.search(search_body).then((res) => {
-        if (res.data.listing) {
-          this.setState({
-            item: res.data.listing,
-            loading: false,
-            default_listing: false,
-            city_listing: false,
-            area_listing: false,
-            category_listing: true,
-            recomnd_listing: false,
-            oneCategory_listing: false,
-            search_res_emty: false,
-            more_data_loading: false,
-            closed_data: false,
-          })
-          if (res.data.item == 0) {
+      this.props.actions
+        .search(search_body)
+        .then((res) => {
+          if (res.data.listing) {
             this.setState({
-              closed_data: true,
+              item: res.data.listing,
+              loading: false,
+              default_listing: false,
+              city_listing: false,
+              area_listing: false,
+              category_listing: true,
+              recomnd_listing: false,
+              oneCategory_listing: false,
+              search_res_emty: false,
               more_data_loading: false,
-            })
-          }
-        } else {
-          const body = {
-            category: ev.label,
-            city: selected_city,
-          }
+              closed_data: false,
+            });
+            if (res.data.item == 0) {
+              this.setState({
+                closed_data: true,
+                more_data_loading: false,
+              });
+            }
+          } else {
+            const body = {
+              category: ev.label,
+              city: selected_city,
+            };
 
-          this.recommended_listing(body)
-          this.setState({
-            search_res_emty: res.data.message,
-          })
-        }
-      })
+            this.recommended_listing(body);
+            this.setState({
+              search_res_emty: res.data.message,
+            });
+          }
+        })
         .catch((err) => console.log(err));
-    }
-    else {
+    } else {
       const body = {
         category: ev.label,
-      }
+      };
       this.props.actions
-        .searchByCategory(body).then((res) => {
+        .searchByCategory(body)
+        .then((res) => {
           if (res.listing) {
             this.setState({
               item: res.listing,
@@ -285,25 +287,23 @@ class PlaceGrid extends Component {
               oneCategory_listing: true,
               more_data_loading: false,
               closed_data: false,
-
-            })
+            });
             if (res.item == 0) {
               this.setState({
                 closed_data: true,
                 more_data_loading: false,
-              })
+              });
             }
-          }
-          else {
+          } else {
             this.setState({
               search_res_emty: res.data.message,
-            })
-            this.get_listing()
+            });
+            this.get_listing();
           }
         })
         .catch((err) => console.log(err));
     }
-  }
+  };
 
   sortByCity = (ev) => {
     this.setState({
@@ -313,13 +313,14 @@ class PlaceGrid extends Component {
       more_data_loading: false,
       oneCategory_listing: false,
       closed_data: false,
-      location_placeholder: 'Sort By Location ...',
-    })
+      location_placeholder: "Sort By Location ...",
+    });
     const search_body = {
       city: ev.label,
     };
     this.props.actions
-      .searchByCity(search_body).then((res) => {
+      .searchByCity(search_body)
+      .then((res) => {
         if (res.listing) {
           this.setState({
             item: res.listing,
@@ -329,28 +330,26 @@ class PlaceGrid extends Component {
             search_res_emty: false,
             closed_data: false,
             more_data_loading: false,
-
-          })
+          });
           if (res.item == 0) {
             this.setState({
               closed_data: true,
               more_data_loading: false,
-            })
+            });
           }
-        }
-        else {
-          this.get_listing()
+        } else {
+          this.get_listing();
           this.setState({
-            search_res_emty: res.message
-          })
+            search_res_emty: res.message,
+          });
         }
       })
       .catch((err) => console.log(err));
   };
 
   handleChangeCit = (ev) => {
-    this.sortByCity(ev)
-    this.setState({ selected_city: ev.label, });
+    this.sortByCity(ev);
+    this.setState({ selected_city: ev.label });
     if (ev.locations !== null) {
       let array = ev.locations;
       let new_arr = [];
@@ -383,7 +382,7 @@ class PlaceGrid extends Component {
       location: ev.label,
       city: this.state.selected_city,
     };
-    this.searchByLocation(search_body)
+    this.searchByLocation(search_body);
   };
 
   get_cat() {
@@ -397,14 +396,24 @@ class PlaceGrid extends Component {
           new_arr.push(element);
         }
         this.setState({
-          categories: new_arr,
+          categories: new_arr.sort((a, b) => {
+            if (a.label < b.label) {
+              return -1;
+            }
+            if (a.label > b.label) {
+              return 1;
+            }
+            return 0;
+          }),
         });
+        console.log("CAT __ ", new_arr);
       }
     });
   }
 
   get_loc() {
     this.props.actions.get_loc().then((res) => {
+      console.log("get_loc called", res);
       let array = res.data;
       let new_arr = [];
       let loc_arr = [];
@@ -412,6 +421,17 @@ class PlaceGrid extends Component {
       if (array.length > 0) {
         for (let i = 0; i < array.length; i++) {
           const element = array[i];
+
+          element.locations = array[i].locations.sort((a, b) => {
+            if (a.label < b.label) {
+              return -1;
+            }
+            if (a.label > b.label) {
+              return 1;
+            }
+            return 0;
+          });
+
           const loc_ele = array[i].locations;
           element.value = i;
           new_arr.push(element);
@@ -429,7 +449,15 @@ class PlaceGrid extends Component {
         // }
         this.setState({
           // locations: concat,
-          cities: new_arr,
+          cities: new_arr.sort((a, b) => {
+            if (a.label < b.label) {
+              return -1;
+            }
+            if (a.label > b.label) {
+              return 1;
+            }
+            return 0;
+          }),
         });
       }
     });
@@ -453,24 +481,23 @@ class PlaceGrid extends Component {
           this.setState({
             closed_data: true,
             more_data_loading: false,
-          })
+          });
         }
-      }
-      else {
+      } else {
         const search_body = {
           city: this.state.selected_city,
           location: this.state.location,
-        }
+        };
         this.setState({
           // search_res_emty: res.message,
           more_data_loading: false,
           closed_data: false,
-        })
+        });
 
         this.props.actions
-          .searchByLocation(search_body).then((res) => {
+          .searchByLocation(search_body)
+          .then((res) => {
             if (res.listing) {
-
               this.setState({
                 item: res.listing,
                 loading: false,
@@ -479,20 +506,20 @@ class PlaceGrid extends Component {
                 area_listing: true,
                 more_data_loading: false,
                 closed_data: false,
-              })
+              });
               if (res.item == 0) {
                 this.setState({
                   closed_data: true,
                   more_data_loading: false,
-                })
+                });
               }
-            }
-            else {
+            } else {
               const body = {
                 city: this.state.selected_city,
-              }
+              };
               this.props.actions
-                .searchByCity(body).then((res) => {
+                .searchByCity(body)
+                .then((res) => {
                   if (res.listing) {
                     this.setState({
                       item: res.listing,
@@ -501,16 +528,15 @@ class PlaceGrid extends Component {
                       city_listing: true,
                       more_data_loading: false,
                       closed_data: false,
-                    })
+                    });
                     if (res.item == 0) {
                       this.setState({
                         closed_data: true,
                         more_data_loading: false,
-                      })
+                      });
                     }
-                  }
-                  else {
-                    this.get_listing()
+                  } else {
+                    this.get_listing();
                   }
                 })
                 .catch((err) => console.log(err));
@@ -538,14 +564,13 @@ class PlaceGrid extends Component {
             this.setState({
               closed_data: true,
               more_data_loading: false,
-            })
+            });
           }
-        }
-        else {
+        } else {
           this.setState({
             empty_message: true,
             loading: false,
-          })
+          });
         }
       }
     });
@@ -553,7 +578,8 @@ class PlaceGrid extends Component {
 
   searchByLocation(search_body) {
     this.props.actions
-      .searchByLocation(search_body).then((res) => {
+      .searchByLocation(search_body)
+      .then((res) => {
         if (res.listing) {
           this.setState({
             item: res.listing,
@@ -563,36 +589,35 @@ class PlaceGrid extends Component {
             area_listing: true,
             search_res_emty: false,
             more_data_loading: false,
-          })
+          });
           if (res.item == 0) {
             this.setState({
               closed_data: true,
               more_data_loading: false,
-            })
+            });
           }
-        }
-        else {
+        } else {
           const body = {
             city: this.state.selected_city,
-          }
+          };
           this.props.actions
-            .searchByCity(body).then((res) => {
+            .searchByCity(body)
+            .then((res) => {
               if (res.listing) {
                 this.setState({
                   item: res.listing,
                   loading: false,
                   default_listing: false,
                   city_listing: true,
-                })
-              }
-              else {
-                this.get_listing()
+                });
+              } else {
+                this.get_listing();
               }
             })
             .catch((err) => console.log(err));
           this.setState({
-            search_res_emty: res.message
-          })
+            search_res_emty: res.message,
+          });
         }
       })
       .catch((err) => console.log(err));
@@ -602,7 +627,7 @@ class PlaceGrid extends Component {
     const next = { skip: this.state.item.length };
     this.setState({
       more_data_loading: true,
-    })
+    });
     if (this.state.default_listing == true) {
       this.props.actions.get_listing(next).then((res) => {
         const more_data = res.data;
@@ -618,12 +643,10 @@ class PlaceGrid extends Component {
           this.setState({
             closed_data: true,
             more_data_loading: false,
-          })
-
+          });
         }
       });
-    }
-    else if (this.state.oneCategory_listing == true) {
+    } else if (this.state.oneCategory_listing == true) {
       const body = {
         category: this.state.category,
         skip: this.state.item.length,
@@ -638,19 +661,17 @@ class PlaceGrid extends Component {
               loading: false,
               closed_data: false,
               more_data_loading: false,
-
             });
           });
           if (res.item == 0) {
             this.setState({
               closed_data: true,
               more_data_loading: false,
-            })
+            });
           }
         }
       });
-    }
-    else if (this.state.city_listing == true) {
+    } else if (this.state.city_listing == true) {
       const body = {
         city: this.state.selected_city,
         skip: this.state.item.length,
@@ -665,19 +686,17 @@ class PlaceGrid extends Component {
               loading: false,
               closed_data: false,
               more_data_loading: false,
-
             });
           });
           if (res.item == 0) {
             this.setState({
               closed_data: true,
               more_data_loading: false,
-            })
+            });
           }
         }
       });
-    }
-    else if (this.state.area_listing == true) {
+    } else if (this.state.area_listing == true) {
       const body = {
         location: this.state.location,
         city: this.state.selected_city,
@@ -701,12 +720,11 @@ class PlaceGrid extends Component {
             this.setState({
               closed_data: true,
               more_data_loading: false,
-            })
+            });
           }
         }
       });
-    }
-    else if (this.state.category_listing == true) {
+    } else if (this.state.category_listing == true) {
       const body = {
         location: this.state.location,
         city: this.state.selected_city,
@@ -725,7 +743,6 @@ class PlaceGrid extends Component {
               more_data_loading: false,
               closed_data: false,
               // closed_data_msg: false,
-
             });
           });
           if (more_data.item == 0) {
@@ -733,18 +750,16 @@ class PlaceGrid extends Component {
             this.setState({
               closed_data: true,
               more_data_loading: false,
-
-            })
+            });
           }
         }
       });
-    }
-    else if (this.state.recomnd_listing == true) {
+    } else if (this.state.recomnd_listing == true) {
       const body = {
         city: this.state.selected_city,
         category: this.state.category,
         skip: this.state.item.length,
-        recommended: this.state.recommended
+        recommended: this.state.recommended,
       };
 
       this.props.actions.recommendedCityCategory(body).then((res) => {
@@ -764,19 +779,16 @@ class PlaceGrid extends Component {
             this.setState({
               closed_data: true,
               more_data_loading: false,
-
-            })
+            });
           }
         }
       });
     }
-
-
   }
 
   get_listing_detailes(details) {
     this.props.actions.listing_details(details);
-    localStorage.setItem('"_ud_"', JSON.stringify(details))
+    localStorage.setItem('"_ud_"', JSON.stringify(details));
     const history = this.props.history;
     history.push("/profile");
   }
@@ -785,7 +797,7 @@ class PlaceGrid extends Component {
     this.get_cat();
     this.get_loc();
 
-    let elements = this.props.moveto
+    let elements = this.props.moveto;
     if (elements !== undefined) {
       this.setState({
         location: elements.location,
@@ -794,7 +806,7 @@ class PlaceGrid extends Component {
         location_placeholder: elements.location,
         city_placeholder: elements.city,
         category_placeholder: elements.category,
-      })
+      });
     }
     let search_res = this.props.item;
     if (search_res !== undefined) {
@@ -802,13 +814,12 @@ class PlaceGrid extends Component {
         const body = {
           city: elements.city,
           category: elements.category,
-        }
-        this.recommended_listing(body)
+        };
+        this.recommended_listing(body);
         this.setState({
           search_res_emty: search_res.message,
         });
-      }
-      else {
+      } else {
         this.setState({
           item: search_res.listing,
           loading: false,
@@ -821,17 +832,23 @@ class PlaceGrid extends Component {
           this.setState({
             closed_data: true,
             more_data_loading: false,
-          })
+          });
         }
       }
-    }
-    else {
-      this.get_listing()
+    } else {
+      this.get_listing();
     }
   }
 
   render() {
-    const { item, loading, search_res_emty, categories, cities, locations } = this.state;
+    const {
+      item,
+      loading,
+      search_res_emty,
+      categories,
+      cities,
+      locations,
+    } = this.state;
     return (
       <>
         <div className="col-lg-12">
@@ -864,16 +881,13 @@ class PlaceGrid extends Component {
               />
             </div>
           </div>
-
         </div>
 
         {search_res_emty && (
           <div
             style={{ textAlign: "center", width: "100%", margin: "50px 0px" }}
           >
-            <h2>
-              {search_res_emty}
-            </h2>
+            <h2>{search_res_emty}</h2>
           </div>
         )}
         <br />
@@ -884,72 +898,76 @@ class PlaceGrid extends Component {
             </span>
           </div>
         ) : (
-            <>
-              {item.map((items, index) => {
-                return (
-                  <div className="col-lg-4 column-td-6" key={index}>
-                    <div className="card-item">
+          <>
+            {item.map((items, index) => {
+              return (
+                <div className="col-lg-4 column-td-6" key={index}>
+                  <div className="card-item">
+                    <div
+                      onClick={this.get_listing_detailes.bind(this, items)}
+                      className="card-image-wrap"
+                      style={{ cursor: "pointer" }}
+                    >
                       <div
-                        onClick={this.get_listing_detailes.bind(this, items)}
-                        className="card-image-wrap"
-                        style={{ cursor: "pointer" }}
+                        className="card-image"
+                        style={{ overflow: "hidden" }}
                       >
-                        <div
-                          className="card-image"
-                          style={{ overflow: "hidden" }}
-                        >
-                          <img
-                            src={items.seller_img}
-                            className="card__img"
-                            alt="Profile-Photo"
-                          />
-                        </div>
+                        <img
+                          src={items.seller_img}
+                          className="card__img"
+                          alt="Profile-Photo"
+                        />
                       </div>
-                      <div className="card-content-wrap">
-                        <div className="card-content">
-                          <div
-                            onClick={this.get_listing_detailes.bind(this, items)}
-                            style={{ cursor: "pointer" }}
-                          >
-                            <h4 className="card-title">
-                              {items.fullname}
-                              <i> {this.state.items[0].titleIcon}</i>
-                            </h4>
+                    </div>
+                    <div className="card-content-wrap">
+                      <div className="card-content">
+                        <div
+                          onClick={this.get_listing_detailes.bind(this, items)}
+                          style={{ cursor: "pointer" }}
+                        >
+                          <h4 className="card-title">
+                            {items.fullname}
+                            <i> {this.state.items[0].titleIcon}</i>
+                          </h4>
 
-                            <h5 className="card-meta">
-                              Category: {items.category}
-                            </h5>
-                            {items.locations.length > 1 &&
-                              <p className="card-sub">
-                                Location: {
-                                  items.city + ', ' + items.locations[0] + ' (' + (items.locations.length - 1) + ' more) '}
-                              </p>
-                            }
-                            {items.locations.length < 2 &&
-                              <p className="card-sub">
-                                Location: {
-                                  items.city + ', ' + items.locations[0]}
-                              </p>
-                            }
-                          </div>
-                          {/* <a href={this.state.items[0].authorUrl} className="author-img">
+                          <h5 className="card-meta">
+                            Category: {items.category}
+                          </h5>
+                          {items.locations.length > 1 && (
+                            <p className="card-sub">
+                              Location:{" "}
+                              {items.city +
+                                ", " +
+                                items.locations[0] +
+                                " (" +
+                                (items.locations.length - 1) +
+                                " more) "}
+                            </p>
+                          )}
+                          {items.locations.length < 2 && (
+                            <p className="card-sub">
+                              Location: {items.city + ", " + items.locations[0]}
+                            </p>
+                          )}
+                        </div>
+                        {/* <a href={this.state.items[0].authorUrl} className="author-img">
                                                         <img src={this.state.items[0].author} alt="author-img" />
                                                     </a> */}
-                          <ul className="info-list padding-top-20px">
-                            {/* <li><span className="la d-inline-block"><IoIosLink /></span>  <a href={this.state.items[0].websiteUrl}>
+                        <ul className="info-list padding-top-20px">
+                          {/* <li><span className="la d-inline-block"><IoIosLink /></span>  <a href={this.state.items[0].websiteUrl}>
                                                             {this.state.items[0].website}
                                                         </a>
                                                         </li> */}
-                            {/* <li>
+                          {/* <li>
                                                             <span className="la d-inline-block"><FaRegCalendarCheck /></span> {this.state.items[0].date}
                                                         </li> */}
-                            <li className="info-list">
-                              {items.description.slice(0, 120)} .....
+                          <li className="info-list">
+                            {items.description.slice(0, 120)} .....
                             {/* <p className="card-text">{}</p> */}
-                            </li>
-                          </ul>
-                        </div>
-                        {/* 
+                          </li>
+                        </ul>
+                      </div>
+                      {/* 
                         <div className="rating-row">
                           <div className="rating-rating">
                             {this.state.items[0].ratings.map((rating, index) => {
@@ -983,43 +1001,39 @@ class PlaceGrid extends Component {
 
                         </div>
                         */}
-
-                      </div>
                     </div>
                   </div>
-                );
-              })}
-            </>
+                </div>
+              );
+            })}
+          </>
+        )}
+        <div className="col-lg-12 mt-4 text-center">
+          {this.state.empty_message && (
+            <h4>No listing right now, plaese try later !</h4>
           )}
-        <div className='col-lg-12 mt-4 text-center'>
-          {this.state.empty_message && <h4>No listing right now, plaese try later !</h4>}
         </div>
         <div className="col-lg-12">
-          {!this.state.more_data_loading &&
+          {!this.state.more_data_loading && (
             <div className="button-shared mt-4 text-center">
-              {!this.state.closed_data &&
+              {!this.state.closed_data && (
                 <button
                   className="theme-btn border-0"
                   onClick={this.get_more_listing.bind(this)}
                 >
                   Load more
-            </button>
-              }
-              {this.state.closed_data &&
-                <h4>
-                  That's all we have
-                </h4>
-
-              }
+                </button>
+              )}
+              {this.state.closed_data && <h4>That's all we have</h4>}
             </div>
-          }
-          {this.state.more_data_loading &&
-            <div className='mt-4 text-center'>
+          )}
+          {this.state.more_data_loading && (
+            <div className="mt-4 text-center">
               <span>
                 <Spinner animation="grow" id="loder" />
               </span>
             </div>
-          }
+          )}
         </div>
       </>
     );

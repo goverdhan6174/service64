@@ -41,9 +41,7 @@ class ListMapView extends Component {
                 <GenericHeader />
               </div>
 
-              <div className="col-lg-4">
-                <ListingListSidebar />
-              </div>
+              <div className="col-lg-4"><ListingListSidebar /></div>
 
               <div className="col-lg-8">
                 <PlaceListing />
@@ -54,7 +52,7 @@ class ListMapView extends Component {
                 <div className="button-shared text-center">
                   <Button text="load more" url="#" className="border-0">
                     <span className="d-inline-block">
-                      <FiRefreshCw />
+                      {/* <FiRefreshCw /> */}
                     </span>
                   </Button>
                 </div>

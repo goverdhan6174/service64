@@ -184,7 +184,6 @@ export function recommendedCityCategory(body) {
 // <<<<<<<<<<<<< listing >>>>>>>>>>>>>>>>>>
 // http://localhost:9080/
 
-
 export function add_listing(body) {
   return (dispatch) => {
     return new Promise((resolve, reject) => {
@@ -260,9 +259,7 @@ export function pwd_reset(body) {
   };
 }
 
-
 export function get_listing(body) {
-  console.log(body);
   return (dispatch) => {
     return new Promise((resolve, reject) => {
       axios
@@ -281,7 +278,10 @@ export function get_listing_usr(body) {
   return (dispatch) => {
     return new Promise((resolve, reject) => {
       axios
-        .post("https://service64.herokuapp.com/app/listing/get_listing/usr", body)
+        .post(
+          "https://service64.herokuapp.com/app/listing/get_listing/usr",
+          body
+        )
         .then((response) => {
           resolve(response);
         })
@@ -312,8 +312,6 @@ export function del_listing(body) {
 // <<<<<<<<<<<<< listing >>>>>>>>>>>>>>>>>>
 // http://localhost:9080/
 // https://service64.herokuapp.com/
-
-
 
 // get_unapproved_listing
 
@@ -545,6 +543,7 @@ export function get_loc() {
       axios
         .get("https://service64.herokuapp.com/app/admin/get_loc")
         .then((response) => {
+          console.log("get loc action has called", response);
           resolve(response);
         })
         .catch((err) => {
@@ -598,5 +597,3 @@ export function mailtoadmin(body) {
     });
   };
 }
-
-
